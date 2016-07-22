@@ -38,6 +38,10 @@
 #   If true will create a ROOT symlink in install_path
 #	default: true
 #
+# * `service_name`
+#   The name of the J2EE servie to install jamwiki under
+#	default: undef
+#
 # * `site_name`
 #   Specify the wiki site name
 #	default: undef
@@ -63,6 +67,8 @@ class jamwiki (
 						  $jamwiki::params::install_path),
   $root_symlink   = hiera('jamwiki::root_symlink',
 						  $jamwiki::params::root_symlink),
+  $service_name   = hiera('jamwiki::service_name',
+						  $jamwiki::params::service_name),
   $site_name      = hiera('jamwiki::site_name',
 						  $jamwiki::params::site_name),
   $war_url        = hiera('jamwiki::war_url',
@@ -71,8 +77,9 @@ class jamwiki (
 
   # validate parameters here
   validate_absolute_path($install_path)
-  validate_string($war_url)
   validate_bool($root_symlink)
+  validate_string($service_name)
+  validate_string($war_url)
   if $admin_username {
     validate_string($admin_username)
   }

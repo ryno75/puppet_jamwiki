@@ -21,6 +21,7 @@ class jamwiki::params {
   $logo_url       = undef
   $install_path   = undef
   $root_symlink   = true
+  $service_name   = undef
   $site_name      = undef
   $war_url        = 'http://downloads.sourceforge.net/project/jamwiki/jamwiki/1.3.x/jamwiki-1.3.2.war'
 }
