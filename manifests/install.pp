@@ -19,6 +19,6 @@ class jamwiki::install inherits jamwiki {
     }
   }
 
-  include jamwiki::install::db
+  class { 'jamwiki::install::db': }
 
 }
