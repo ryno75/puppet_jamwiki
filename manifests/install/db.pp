@@ -3,7 +3,7 @@
 # This class is called from jamwiki::install.
 #
 class jamwiki::install::db (
-  $classpath     = $jamwiki::params::classpath
+  $classpath     = $jamwiki::params::classpath,
   $connector_url = $jamwiki::params::connector_url
 ) inherits jamwiki::params {
 

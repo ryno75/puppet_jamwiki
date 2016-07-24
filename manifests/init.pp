@@ -51,28 +51,17 @@
 #	default: 'http://downloads.sourceforge.net/project/jamwiki/jamwiki/1.3.x/jamwiki-1.3.2.war'
 #
 class jamwiki (
-  $admin_username = hiera('jamwiki::admin_username',
-						  $jamwiki::params::admin_username),
-  $admin_password = hiera('jamwiki::admin_password',
-						  $jamwiki::params::admin_password),
-  $db_type        = hiera('jamwiki::db_type',
-						  $jamwiki::params::db_type),
-  $db_username    = hiera('jamwiki::db_username',
-						  $jamwiki::params::db_username),
-  $db_password    = hiera('jamwiki::db_password',
-						  $jamwiki::params::db_password),
-  $logo_url       = hiera('jamwiki::logo_url',
-						  $jamwiki::params::logo_url),
-  $install_path   = hiera('jamwiki::install_path',
-						  $jamwiki::params::install_path),
-  $root_symlink   = hiera('jamwiki::root_symlink',
-						  $jamwiki::params::root_symlink),
-  $service_name   = hiera('jamwiki::service_name',
-						  $jamwiki::params::service_name),
-  $site_name      = hiera('jamwiki::site_name',
-						  $jamwiki::params::site_name),
-  $war_url        = hiera('jamwiki::war_url',
-						  $jamwiki::params::war_url)
+  $admin_username = $jamwiki::params::admin_username,
+  $admin_password = $jamwiki::params::admin_password,
+  $db_type        = $jamwiki::params::db_type,
+  $db_username    = $jamwiki::params::db_username,
+  $db_password    = $jamwiki::params::db_password,
+  $logo_url       = $jamwiki::params::logo_url,
+  $install_path   = $jamwiki::params::install_path,
+  $root_symlink   = $jamwiki::params::root_symlink,
+  $service_name   = $jamwiki::params::service_name,
+  $site_name      = $jamwiki::params::site_name,
+  $war_url        = $jamwiki::params::war_url
 ) inherits jamwiki::params {
 
   # validate parameters here
