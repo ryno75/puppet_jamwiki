@@ -5,7 +5,8 @@
 class jamwiki::install::db (
   $classpath     = $jamwiki::params::classpath,
   $connector_url = $jamwiki::params::connector_url
-) inherits jamwiki::params {
+  $db_type       = $jamwiki::params::db_type,
+) inherits jamwiki {
 
   case $db_type {
     'mysql':    { include jamwiki::install::db::mysql }

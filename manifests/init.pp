@@ -53,6 +53,8 @@
 class jamwiki (
   $admin_username = $jamwiki::params::admin_username,
   $admin_password = $jamwiki::params::admin_password,
+  $claspath       = $jamwiki::params::classpath,
+  $connector_url  = $jamwiki::params::connector_url,
   $db_type        = $jamwiki::params::db_type,
   $db_username    = $jamwiki::params::db_username,
   $db_password    = $jamwiki::params::db_password,
@@ -74,6 +76,12 @@ class jamwiki (
   }
   if $admin_password {
     validate_string($admin_password)
+  }
+  if $classpath {
+    validate_absolute_path($classpath)
+  }
+  if $connector_url {
+    validate_string($connector_url)
   }
   if $db_type {
     validate_string($db_type)
