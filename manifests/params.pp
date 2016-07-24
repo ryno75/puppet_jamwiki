@@ -15,6 +15,8 @@ class jamwiki::params {
   }
   $admin_username = undef
   $admin_password = undef
+  $classpath      = undef
+  $connector_url  = 'https://s3-us-west-2.amazonaws.com/puppet-depot/src/mysql-connector-java-5.1.39-bin.jar'
   $db_type        = undef
   $db_username    = undef
   $db_password    = undef

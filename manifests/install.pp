@@ -18,4 +18,7 @@ class jamwiki::install inherits jamwiki {
       subscribe => Exec['download_war'],
     }
   }
+
+  include jamwiki::install::db
+
 }
