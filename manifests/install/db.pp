@@ -4,7 +4,7 @@
 #
 class jamwiki::install::db (
   $classpath     = $jamwiki::params::classpath,
-  $connector_url = $jamwiki::params::connector_url
+  $connector_url = $jamwiki::params::connector_url,
   $db_type       = $jamwiki::params::db_type,
 ) inherits jamwiki {
 
