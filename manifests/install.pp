@@ -22,7 +22,7 @@ class jamwiki::install inherits jamwiki {
     ensure => directory,
     owner  => $user,
     group  => $group,
-    mode   => 775,
+    mode   => '0775',
   }
 
   class { 'jamwiki::install::db': }
