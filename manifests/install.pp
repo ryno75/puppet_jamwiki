@@ -18,6 +18,12 @@ class jamwiki::install inherits jamwiki {
       subscribe => Exec['download_war'],
     }
   }
+  file { $filesys_dir:
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+    mode   => 775,
+  }
 
   class { 'jamwiki::install::db': }
 

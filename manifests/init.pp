@@ -58,19 +58,26 @@ class jamwiki (
   $db_type        = $jamwiki::params::db_type,
   $db_username    = $jamwiki::params::db_username,
   $db_password    = $jamwiki::params::db_password,
+  $filesys_dir    = $jamwiki::params::filesys_dir,
+  $group          = $jamwiki::params::group,
   $logo_url       = $jamwiki::params::logo_url,
   $install_path   = $jamwiki::params::install_path,
   $root_symlink   = $jamwiki::params::root_symlink,
   $service_name   = $jamwiki::params::service_name,
   $site_name      = $jamwiki::params::site_name,
+  $user           = $jamwiki::params::user,
   $war_url        = $jamwiki::params::war_url
 ) inherits jamwiki::params {
 
   # validate parameters here
   validate_absolute_path($install_path)
+  validate_absolute_path($filesys_dir)
   validate_bool($root_symlink)
   validate_string($service_name)
   validate_string($war_url)
+  validate_string($user)
+  validate_string($group)
+
   if $admin_username {
     validate_string($admin_username)
   }
