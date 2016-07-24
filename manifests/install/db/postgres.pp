@@ -3,7 +3,7 @@
 # This class is called from jamwiki::install::db
 # and installs the postgres connector
 #
-class jamwiki::install::db inherits jamwiki::install::db {
+class jamwiki::install::db::postgres inherits jamwiki::install::db {
 
   $connector = basename($connector_url)
   $connector_path = "$classpath/$connector"
