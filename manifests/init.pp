@@ -53,7 +53,7 @@
 class jamwiki (
   $admin_username = $jamwiki::params::admin_username,
   $admin_password = $jamwiki::params::admin_password,
-  $claspath       = $jamwiki::params::classpath,
+  $classpath      = $jamwiki::params::classpath,
   $connector_url  = $jamwiki::params::connector_url,
   $db_type        = $jamwiki::params::db_type,
   $db_username    = $jamwiki::params::db_username,
