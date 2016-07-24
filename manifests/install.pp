@@ -2,7 +2,7 @@
 #
 # This class is called from jamwiki for install.
 #
-class jamwiki::install {
+class jamwiki::install inherits jamiki {
 
   $war_file = basename($war_url)
   exec { 'download_war':
