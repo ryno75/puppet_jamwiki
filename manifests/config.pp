@@ -57,7 +57,7 @@ class jamwiki::config inherits jamwiki {
     $_props_file    = "${filesys_dir}/jamwiki.properties"
   }
   file { $_props_file:
-    content => template('jamwiki/jamwiki.properties.erb')
+    content => template('jamwiki/jamwiki.properties.erb'),
     require => File[$props_file_dir],
   }
   Ini_setting {
