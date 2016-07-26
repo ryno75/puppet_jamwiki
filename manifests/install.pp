@@ -20,11 +20,9 @@ class jamwiki::install inherits jamwiki {
   }
   file { $filesys_dir:
     ensure => directory,
-    owner  => $user,
-    group  => $group,
     mode   => '0775',
   }
 
-  class { 'jamwiki::install::db': }
+  include jamwiki::install::db
 
 }
