@@ -26,13 +26,13 @@ class jamwiki::config inherits jamwiki {
   # set db related properties
   case $db_type {
     'mysql': {
-      if ! defined($db_port) { $db_port = 3306 }
+      if ! $db_port { $db_port = 3306 }
       $db_driver         = 'com.mysql.jdbc.Driver'
       $db_handler        = 'MySqlQueryHandler'
       $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
     }
     'postgres': {
-      if ! defined($db_port) { $db_port = 5432 }
+      if ! $db_port { $db_port = 5432 }
       $db_driver         = 'org.postgresql.Driver'
       $db_handler        = 'PostgresQueryHandler'
       $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
