@@ -12,7 +12,7 @@ class jamwiki::config inherits jamwiki {
   # download logo file if specified
   if $logo_url {
     $logo_file = basename($logo_url)
-    $logo_path = "${filesys_dir}/${logo_url}"
+    $logo_path = "${filesys_dir}/${logo_file}"
     exec { 'download_logo':
       command => "wget -O ${logo_path} ${logo_url}",
       path    => ['/bin', '/usr/bin'],
@@ -91,7 +91,7 @@ class jamwiki::config inherits jamwiki {
     key_val_separator => '=',
     quote_char        => '"',
     setting           => 'JAVA_OPTS',
-    subsetting        => '-jamwiki.property.file',
+    subsetting        => '-Djamwiki.property.file=',
     value             => $props_file,
   }
 
