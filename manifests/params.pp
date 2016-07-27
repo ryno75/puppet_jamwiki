@@ -25,6 +25,7 @@ class jamwiki::params {
   $install_path     = undef
   $jamwiki_version  = '1.3.2'
   $logo_url         = undef
+  $properties_file  = undef
   $root_symlink     = true
   $server_name      = $fqdn
   $service_name     = 'tomcat'

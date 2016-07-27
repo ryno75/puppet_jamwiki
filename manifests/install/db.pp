@@ -5,11 +5,11 @@
 class jamwiki::install::db inherits jamwiki {
 
   if $db_type {
-    $connector = basename($connector_url)
+    $connector = basename($db_connector_url)
     $connector_path = "$classpath/$connector"
 
     exec { 'download_connector':
-      command => "wget -O ${connector_path} ${connector_url}",
+      command => "wget -O ${connector_path} ${db_connector_url}",
       path    => ['/bin', '/usr/bin'],
       creates => $connector_path,
     }

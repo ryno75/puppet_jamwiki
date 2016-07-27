@@ -61,6 +61,11 @@
 #   type: string
 #	default: undef
 #
+# * `properties_file`
+#   Path to a location to use as the jamwiki properties file
+#   type: absolute_path
+#	default: undef (results in ${filesys_dir}/jamwiki.properties)
+#
 # * `root_symlink`
 #   If true will create a ROOT symlink in install_path
 #   type: boolean
@@ -84,8 +89,8 @@
 class jamwiki (
   $classpath        = $jamwiki::params::classpath,
   $config_hash      = hiera_hash('jamwiki::config_hash',
-                                 $jamwiki::params::connector_url),
-  $db_connector_url = $jamwiki::params::connector_url,
+                                 $jamwiki::params::config_hash),
+  $db_connector_url = $jamwiki::params::db_connector_url,
   $db_hostname      = $jamwiki::params::db_hostname,
   $db_name          = $jamwiki::params::db_name,
   $db_port          = $jamwiki::params::db_port,
@@ -94,6 +99,7 @@ class jamwiki (
   $group            = $jamwiki::params::group,
   $install_path     = $jamwiki::params::install_path,
   $logo_url         = $jamwiki::params::logo_url,
+  $properties_file  = $jamwiki::params::properties_file,
   $root_symlink     = $jamwiki::params::root_symlink,
   $server_name      = $jamwiki::params::server_name,
   $service_name     = $jamwiki::params::service_name,
@@ -134,6 +140,9 @@ class jamwiki (
   }
   if $logo_url {
     validate_string($logo_url)
+  }
+  if $properties_file {
+    validate_string($properties_file)
   }
 
   # set file defaults

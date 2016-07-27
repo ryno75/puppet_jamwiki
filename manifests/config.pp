@@ -39,10 +39,10 @@ class jamwiki::config inherits jamwiki {
     }
   }
 
-  # manage custom properties file
-  if $props_file {
-    $props_file_dir = dirname($props_file)
-    $_props_file    = $props_file
+  if $properties_file {
+    # manage custom properties file path
+    $props_file_dir = dirname($properties_file)
+    $props_file    = $properties_file
     exec { 'create_props_file_dir_tree':
       command => "mkdir -p -m 755 ${props_file_dir}",
       creates => $props_file_dir,
@@ -53,17 +53,20 @@ class jamwiki::config inherits jamwiki {
       mode   => '0775',
     }
   } else {
-    $props_file_dir = $props_file
-    $_props_file    = "${filesys_dir}/jamwiki.properties"
+    # manage stock module properties file path
+    $props_file_dir = $filesys_dir
+    $props_file    = "${filesys_dir}/jamwiki.properties"
   }
-  file { $_props_file:
-    content => template('jamwiki/jamwiki.properties.erb'),
+  file { $props_file:
+    content => template("${module_name}/jamwiki.properties.erb"),
     require => File[$props_file_dir],
   }
   Ini_setting {
     ensure => present,
-    path   => $_props_file,
+    path   => $props_file,
+    require => File[$props_file],
   }
+  # iterate over config_hash and set properties forom key/value pairs
   $config_hash.each |String $prop_name, String $prop_value| {
     ini_setting { "jamwiki.properties.${prop_name}":
       setting => $prop_name,
