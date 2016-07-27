@@ -166,7 +166,7 @@ class jamwiki (
     validate_string($properties_file)
   }
 
-  if $db_type and (!defined($db_hostname)) {
+  if $db_type and (!$db_hostname) {
     fail("when specifying \$db_type you must also supply \$db_hostname")
   }
 
