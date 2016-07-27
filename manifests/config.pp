@@ -29,20 +29,24 @@ class jamwiki::config inherits jamwiki {
       if ! $db_port { $db_port = 3306 }
       $db_driver         = 'com.mysql.jdbc.Driver'
       $db_handler        = 'MySqlQueryHandler'
-      $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
     }
     'postgres': {
       if ! $db_port { $db_port = 5432 }
       $db_driver         = 'org.postgresql.Driver'
       $db_handler        = 'PostgresQueryHandler'
-      $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
     }
     default: {
       # use internal hsql db
       $db_driver         = 'org.hsqldb.jdbcDriver'
       $db_handler        = 'HSqlQueryHandler'
-      $db_connect_string = "jdbc\\:hsqldb\\:file\\:${filesys_dir}/database/${db_name};shutdown\\=true"
     }
+  }
+  if $db_type {
+    $db_connect_string   = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
+    $db_persistence_type = 'DATABASE'
+  } else {
+    $db_connect_string   = "jdbc\\:hsqldb\\:file\\:${filesys_dir}/database/${db_name};shutdown\\=true"
+    $db_persistence_type = 'INTERNAL'
   }
 
   if $properties_file {
