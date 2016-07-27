@@ -170,12 +170,6 @@ class jamwiki (
     fail("when specifying \$db_type you must also set \$db_hostname parameter")
   }
 
-  # set file defaults
-  File {
-    group => $group,
-    owner => $user,
-  }
-
   class { 'jamwiki::install': }->
   class { 'jamwiki::config': }->
   Class['jamwiki']

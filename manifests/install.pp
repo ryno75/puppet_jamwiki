@@ -10,6 +10,8 @@ class jamwiki::install inherits jamwiki {
     command => "wget -O ${install_path}/${war_file} ${war_url}",
     path    => ['/bin', '/usr/bin'],
     creates => "${install_path}/${war_file}",
+    user    => $user,
+    group   => $group,
   }
   if $root_symlink {
     file { "${install_path}/ROOT":
@@ -21,6 +23,8 @@ class jamwiki::install inherits jamwiki {
   file { $filesys_dir:
     ensure => directory,
     mode   => '0775',
+    owner  => $user,
+    group  => $group,
   }
 
   include jamwiki::install::db

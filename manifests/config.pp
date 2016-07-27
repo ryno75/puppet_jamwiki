@@ -57,12 +57,16 @@ class jamwiki::config inherits jamwiki {
     $props_file    = $properties_file
     exec { 'create_props_file_dir_tree':
       command => "mkdir -p -m 755 ${props_file_dir}",
-      creates => $props_file_dir,
       path    => ['/bin', '/usr/bin'],
+      creates => $props_file_dir,
+      user    => $user,
+      group   => $group,
     }->
     file { $props_file_dir:
       ensure => directory,
       mode   => '0775',
+      owner   => $user,
+      group   => $group,
     }
   } else {
     # manage stock module properties file path
@@ -76,6 +80,8 @@ class jamwiki::config inherits jamwiki {
     content => template("${module_name}/jamwiki.properties.erb"),
     require => File[$props_file_dir],
     notify  => Service[$service_name],
+    owner   => $user,
+    group   => $group,
   }
   Ini_setting {
     ensure            => present,
