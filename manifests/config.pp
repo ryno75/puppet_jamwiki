@@ -76,10 +76,11 @@ class jamwiki::config inherits jamwiki {
     notify  => Service[$service_name],
   }
   Ini_setting {
-    ensure  => present,
-    path    => $props_file,
-    require => File[$props_file],
-    notify  => Service[$service_name],
+    ensure            => present,
+    key_val_separator => '=',
+    path              => $props_file,
+    notify            => Service[$service_name],
+    require           => File[$props_file],
   }
   # iterate over config_hash and set properties forom key/value pairs
   $config_hash.each |String $prop_name, String $prop_value| {
@@ -92,7 +93,6 @@ class jamwiki::config inherits jamwiki {
   ini_subsetting { 'jamwiki_properties_file_sysprop':
     ensure            => present,
     path              => $java_opts_path,
-    key_val_separator => '=',
     quote_char        => '"',
     setting           => 'JAVA_OPTS',
     subsetting        => '-Djamwiki.property.file=',
