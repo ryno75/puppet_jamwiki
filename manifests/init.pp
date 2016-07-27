@@ -167,7 +167,7 @@ class jamwiki (
   }
 
   if $db_type and (!$db_hostname) {
-    fail("when specifying \$db_type you must also supply \$db_hostname")
+    fail("when specifying \$db_type you must also set \$db_hostname parameter")
   }
 
   # set file defaults
