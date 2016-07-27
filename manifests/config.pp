@@ -12,7 +12,7 @@ class jamwiki::config inherits jamwiki {
   # download logo file if specified
   if $logo_url {
     $logo_file = basename($logo_url)
-    $logo_path = "${jamwiki::install::exploded_war_path}/images/${logo_file}"
+    $logo_path = "${install_path}/${jamwiki::install::exploded_war_path}/images/${logo_file}"
     exec { 'download_logo':
       command => "wget -O ${logo_path} ${logo_url}",
       path    => ['/bin', '/usr/bin'],
