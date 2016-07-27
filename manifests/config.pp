@@ -87,7 +87,7 @@ class jamwiki::config inherits jamwiki {
   # ref the managed properties file in the J2EE JAVA_OPTS
   ini_subsetting { 'jamwiki_properties_file_sysprop':
     ensure            => present,
-    path              => $java_opt_path,
+    path              => $java_opts_path,
     key_val_separator => '=',
     quote_char        => '"',
     setting           => 'JAVA_OPTS',
