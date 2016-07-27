@@ -8,6 +8,12 @@ class jamwiki::params {
     'Debian': {
     }
     'RedHat', 'Amazon': {
+      case $operatingsystem {
+        'Amazon': {
+        }
+        default: {
+        }
+      }
     }
     default: {
       fail("${operatingsystem} not supported")
@@ -17,12 +23,15 @@ class jamwiki::params {
   $config_hash      = undef
   $db_connector_url = 'https://s3-us-west-2.amazonaws.com/puppet-depot/src/mysql-connector-java-5.1.39-bin.jar'
   $db_hostname      = undef
-  $db_name          = undef
+  $db_name          = 'jamwiki'
+  $db_password      = ''
   $db_port          = undef
   $db_type          = undef
+  $db_user          = 'sa'
   $filesys_dir      = '/usr/local/share/jamwiki'
   $group            = 'tomcat'
   $install_path     = undef
+  $java_opts_path   = undef
   $jamwiki_version  = '1.3.2'
   $logo_url         = undef
   $properties_file  = undef

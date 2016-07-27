@@ -26,16 +26,22 @@ class jamwiki::config inherits jamwiki {
   # set db related properties
   case $db_type {
     'mysql': {
-      $db_handler = 'MySqlQueryHandler'
-      $db_driver  = 'com.mysql.jdbc.Driver'
+      if ! defined($db_port) { $db_port = 3306 }
+      $db_driver         = 'com.mysql.jdbc.Driver'
+      $db_handler        = 'MySqlQueryHandler'
+      $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
     }
     'postgres': {
-      $db_handler = 'PostgresQueryHandler'
-      $db_driver  = 'org.postgresql.Driver'
+      if ! defined($db_port) { $db_port = 5432 }
+      $db_driver         = 'org.postgresql.Driver'
+      $db_handler        = 'PostgresQueryHandler'
+      $db_connect_string = "jdbc\\:${db_type}\\://${db_hostname}\\:${db_port}/${db_name}"
     }
     default: {
-      $db_handler = 'HSqlQueryHandler'
-      $db_driver  = 'org.hsqldb.jdbcDriver'
+      # use internal hsql db
+      $db_driver         = 'org.hsqldb.jdbcDriver'
+      $db_handler        = 'HSqlQueryHandler'
+      $db_connect_string = "jdbc\\:hsqldb\\:file\\:${filesys_dir}/database/${db_name};shutdown\\=true"
     }
   }
 
@@ -57,14 +63,19 @@ class jamwiki::config inherits jamwiki {
     $props_file_dir = $filesys_dir
     $props_file    = "${filesys_dir}/jamwiki.properties"
   }
+  # WARNING: having a property that is specified via class param as well as
+  #          config_hash will result in config flapping and service restart
+  #          with every Puppet catalog conpile
   file { $props_file:
     content => template("${module_name}/jamwiki.properties.erb"),
     require => File[$props_file_dir],
+    notify  => Service[$service_name],
   }
   Ini_setting {
-    ensure => present,
-    path   => $props_file,
+    ensure  => present,
+    path    => $props_file,
     require => File[$props_file],
+    notify  => Service[$service_name],
   }
   # iterate over config_hash and set properties forom key/value pairs
   $config_hash.each |String $prop_name, String $prop_value| {
@@ -72,6 +83,16 @@ class jamwiki::config inherits jamwiki {
       setting => $prop_name,
       value   => $prop_value,
     }
+  }
+  # ref the managed properties file in the J2EE JAVA_OPTS
+  ini_subsetting { 'jamwiki_properties_file_sysprop':
+    ensure            => present,
+    path              => $java_opt_path,
+    key_val_separator => '=',
+    quote_char        => '"',
+    setting           => 'JAVA_OPTS',
+    subsetting        => '-jamwiki.property.file',
+    value             => $props_file,
   }
 
 }

@@ -26,6 +26,11 @@
 #   type: string
 #	default: undef (results in internal DB)
 #
+# * `db_password`
+#   Backend database user password hash
+#   type: string
+#	default: '' (suitable for internal HSQL DB)
+#
 # * `db_port`
 #   Backend database TCP port
 #   type: integer
@@ -35,6 +40,11 @@
 #   type: string
 #   Backend database type (currently only mysql and postgres supported)
 #	default: undef (results in internal DB)
+#
+# * `db_user`
+#   Backend database user
+#   type: string
+#	default: 'sa' (suitable for internal HSQL DB)
 #
 # * `filesys_dir`
 #   The local path on the server to use for jamwiki file system path
@@ -51,10 +61,15 @@
 #   type: absolute_path
 #	default: undef
 #
-# * `jamwiki_vesion`
+# * `jamwiki_version`
 #   The version of jamwiki which you are installing (should match version in war_url)
 #   type: string
 #	default: 1.3.2
+#
+# * `java_opts_path`
+#   The path to the file containing the JAVA_OPTS variable for the J2EE service
+#   type: absolute_path
+#	default: undef
 #
 # * `logo_url`
 #   An image file url to the desired logo image
@@ -93,12 +108,16 @@ class jamwiki (
   $db_connector_url = $jamwiki::params::db_connector_url,
   $db_hostname      = $jamwiki::params::db_hostname,
   $db_name          = $jamwiki::params::db_name,
+  $db_password      = $jamwiki::params::db_password,
   $db_port          = $jamwiki::params::db_port,
   $db_type          = $jamwiki::params::db_type,
+  $db_user          = $jamwiki::params::db_user,
   $filesys_dir      = $jamwiki::params::filesys_dir,
   $group            = $jamwiki::params::group,
   $install_path     = $jamwiki::params::install_path,
   $logo_url         = $jamwiki::params::logo_url,
+  $jamwiki_version  = $jamwiki::params::jamwiki_version,
+  $java_opts_path   = $jamwiki::params::java_opts_path,
   $properties_file  = $jamwiki::params::properties_file,
   $root_symlink     = $jamwiki::params::root_symlink,
   $server_name      = $jamwiki::params::server_name,
@@ -108,9 +127,14 @@ class jamwiki (
 ) inherits jamwiki::params {
 
   # validate parameters here
+  validate_string($db_password)
+  validate_string($db_name)
+  validate_string($db_user)
   validate_absolute_path($filesys_dir)
   validate_string($group)
   validate_absolute_path($install_path)
+  validate_string($jamwiki_version)
+  validate_absolute_path($java_opts_path)
   validate_bool($root_symlink)
   validate_string($server_name)
   validate_string($service_name)
@@ -129,9 +153,6 @@ class jamwiki (
   if $db_hostname {
     validate_string($db_hostname)
   }
-  if $db_name {
-    validate_string($db_name)
-  }
   if $db_port {
     validate_integer($db_port)
   }
@@ -143,6 +164,10 @@ class jamwiki (
   }
   if $properties_file {
     validate_string($properties_file)
+  }
+
+  if $db_type and (!defined($db_hostname)) {
+    fail("when specifying \$db_type you must also supply \$db_hostname")
   }
 
   # set file defaults

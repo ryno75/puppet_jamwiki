@@ -4,6 +4,7 @@
 #
 class jamwiki::install::db inherits jamwiki {
 
+  # install connector lib
   if $db_type {
     $connector = basename($db_connector_url)
     $connector_path = "$classpath/$connector"
@@ -13,10 +14,13 @@ class jamwiki::install::db inherits jamwiki {
       path    => ['/bin', '/usr/bin'],
       creates => $connector_path,
     }
-}
+  }
+
+  # db specific configs
   case $db_type {
     'mysql':    { include jamwiki::install::db::mysql }
     'postgres': { include jamwiki::install::db::postgres }
+    default: {}
   }
 
 }
