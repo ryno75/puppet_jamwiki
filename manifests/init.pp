@@ -176,8 +176,7 @@ class jamwiki (
     owner => $user,
   }
 
-  class { 'jamwiki::install': } ->
-  class { 'jamwiki::config': } ->
+  class { 'jamwiki::install': }->
+  class { 'jamwiki::config': }->
   Class['jamwiki']
 }
-
