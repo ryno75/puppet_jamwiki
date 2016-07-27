@@ -18,7 +18,7 @@ class jamwiki::config inherits jamwiki {
       path    => ['/bin', '/usr/bin'],
       creates => $logo_path,
       user    => $user,
-      groups  => $group,
+      group   => $group,
       require => File[$filesys_dir],
     }
   } else {
